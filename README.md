@@ -2,6 +2,8 @@
 
 Web browswer based graphical interface for speed test tool iperf3
 
+NOTE: this is also an example on how to make a graphical interface for a command line tool, using the power of the web technologies.
+
 Setting: a server computer running the command ``iperf3 -s``
 a client computer with:
 1. iperf3 -speed test client
@@ -23,3 +25,6 @@ It will start the test, and it will open the html file into the browser.
 In the browser you will start see the graph with the test results.
 To stop the test press the button on the web-page "close" or press "x" on the browser tab
 This will close the browser tab and terminate the client program
+
+NOTEs:
+1. The test is set for UDP traffic for max duration of 2000 sec. If you whish to change it, just change the option of the iperf3 tool client side.
