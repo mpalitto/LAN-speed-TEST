@@ -1,0 +1,52 @@
+<html>
+<head>
+  <title>speedPlot</title>
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+	<div style="font-size: 24pt">Speed Plot<button style="float: right" onClick='exit()'>CLOSE</button></div>
+  <div id="plot">waiting for Connection...</div>
+  <div id="graph"></div>
+<script>
+    var SP = document.getElementById("plot")
+
+    var loc = window.location;
+    connection = new WebSocket("ws://localhost:1234");
+    // set onopen WebSocket action to send the login name to the Server
+    connection.onopen = function (e){ 
+	connection.send("Ciao da Client"); 
+	SP.innerHTML = "connection established";
+    };
+
+
+    Plotly.plot('graph', [{
+      y: [0,0,0],
+      mode: 'lines',
+      line: {color: '#80CAF6'}
+    }]);
+
+    // Quando ricevo un messaggio determina il tipo di messaggio e scrivilo in
+    // modo appropriato
+    connection.onmessage = function(e){
+        console.log(e.data.substring(0,9));
+	//SP.innerHTML += "<div>"+e.data+"</div>";
+	//SP.innerHtml = "receiving data";
+
+	Plotly.extendTraces('graph', {
+	    y: [[e.data]]
+	}, [0])
+
+    }
+window.onbeforeunload = function(){
+  connection.send("kill");
+}
+
+function exit() {
+  connection.send("kill"); 
+  window.close();
+}
+
+</script>
+</body>
+</html>
