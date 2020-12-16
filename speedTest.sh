@@ -9,6 +9,7 @@ function exitSpeedTest() {
   sleep 1
   echo Killing $myID  
   pkill -P $myID
+  ps -o pid= -o cmd= -C tail | grep iperf3  | while read pid line; do kill -KILL $pid; done
 }
 
 if nc -zvw3 192.168.1.125 5201 2>&1 | grep -q 'succeeded'; then
